@@ -1,21 +1,17 @@
 package com.chocho.MCA_Restaurant
 
-import android.app.ActivityManager
-import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Build
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.system.exitProcess
 
 
 class MainActivity2 : AppCompatActivity() {
@@ -94,7 +90,7 @@ class MainActivity2 : AppCompatActivity() {
         }
 
         bagButton.setOnClickListener {
-            val intent = Intent(this, SubActivity_bag::class.java)
+            val intent = Intent(this, ActivityPaymentList::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
             startActivity(intent)

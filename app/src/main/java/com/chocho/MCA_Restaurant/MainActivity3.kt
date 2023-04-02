@@ -1,6 +1,5 @@
 package com.chocho.MCA_Restaurant
 
-import android.app.ActivityManager
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioManager
@@ -81,7 +80,7 @@ class MainActivity3 : AppCompatActivity() {
         }
 
         bagButton.setOnClickListener {
-            val intent = Intent(this, SubActivity_bag::class.java)
+            val intent = Intent(this, ActivityPaymentList::class.java)
             intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
             startActivity(intent)

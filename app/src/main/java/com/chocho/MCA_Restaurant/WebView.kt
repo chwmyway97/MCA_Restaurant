@@ -27,11 +27,12 @@ class WebView : AppCompatActivity() {
         setContentView(R.layout.webview)
 
         val webview = findViewById<WebView>(R.id.webview)
+        val Button = findViewById<Button>(R.id.button)
 
         val PayRemoveButton = findViewById<Button>(R.id.PayRemove)
         PayRemoveButton.setOnClickListener {
-            Toast.makeText(this,"결제가 취소되었습니다.",Toast.LENGTH_SHORT).show()
-            val payIntent = Intent(this,MainActivity2::class.java)
+            Toast.makeText(this, "결제가 취소되었습니다.", Toast.LENGTH_SHORT).show()
+            val payIntent = Intent(this, MainActivity2::class.java)
             startActivity(payIntent)
         }
 
@@ -46,30 +47,31 @@ class WebView : AppCompatActivity() {
         val Ref = Firebase.database.getReference("vible")
         val mRe = Firebase.database.getReference("table")
 
-        Ref.addValueEventListener(object: ValueEventListener {
-            val live :MutableList<Any> = mutableListOf()
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                val value = snapshot.getValue()
-                live.add(value.toString())
-                if(value == null){}
-                else{
-                    val firebaseIntent = Intent(this@WebView,MainActivity::class.java)
+        Button.setOnClickListener {
+            Ref.addValueEventListener(object : ValueEventListener {
+                val live: MutableList<Any> = mutableListOf()
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    val value = snapshot.getValue()
+                    live.add(value.toString())
+
+
+                    val firebaseIntent = Intent(this@WebView, MainActivity::class.java)
 
 
                     val mDatabase = FirebaseDatabase.getInstance()
-                    val kyky = mDatabase.getReference("master")
-                    val live :MutableList<Any> = mutableListOf()
+                    val kyky = mDatabase.getReference("master").child("1번 테이블")
+                    val live: MutableList<Any> = mutableListOf()
 
-                    mRe.addListenerForSingleValueEvent(object : ValueEventListener{
+                    mRe.addListenerForSingleValueEvent(object : ValueEventListener {
 
                         override fun onDataChange(snapshot: DataSnapshot) {
                             live.clear()
-                            for (messageData in snapshot.children){
+                            for (messageData in snapshot.children) {
                                 val getData = messageData.getValue(Meat::class.java)
                                 live.add(getData!!)
-                                Log.d("궁금해",live.toString())
+                                Log.d("궁금해", live.toString())
                                 kyky.setValue(live)
                             }
 
@@ -85,15 +87,19 @@ class WebView : AppCompatActivity() {
                     startActivity(firebaseIntent)
                     mRe.removeValue()
                     Ref.removeValue()
+
+
                 }
 
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w(TAG, "Failed to read value.", error.toException())
+                }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to read value.", error.toException())
-            }
+            })
 
-        })
+        }
+
+
 
     }
 

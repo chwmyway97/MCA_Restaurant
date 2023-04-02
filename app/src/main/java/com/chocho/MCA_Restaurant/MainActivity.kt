@@ -21,6 +21,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    //백키를 눌렀을때
+    //백키를 눌렀을 때
     override fun onBackPressed() {}
 }
