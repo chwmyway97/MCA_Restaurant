@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/click_back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="1074dp"
+            android:layout_height="213dp"
+            android:layout_marginStart="122dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="122dp"
+            android:gravity="center"
+            android:text="주문 목록"
+            android:textColor="#000000"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:background="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView2">
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="21dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="총 금액 : "
+            android:textColor="#000000"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.421" />
+
+        <TextView
+            android:id="@+id/allValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/roboto"
+            android:text="￦    0"
+            android:textColor="#FFFDFC"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/payment"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="11dp"
+            android:background="@drawable/click_payment_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.714"
+            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/removeButton"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="11dp"
+            android:background="@drawable/click_remove_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.821"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.714"
+            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

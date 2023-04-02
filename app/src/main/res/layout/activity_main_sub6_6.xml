@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    tools:context=".MainActivity2Sub">
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="1318dp"
+        android:layout_height="550dp"
+        android:background="@drawable/water_6"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/backButton_white"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/click_back_button" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="564dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="676dp"
+        android:fontFamily="@font/interbold"
+        android:gravity="left|center_vertical"
+        android:text="@string/CIDER"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+        tools:ignore="RtlHardcoded" />
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="681dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginEnd="559dp"
+        android:layout_marginBottom="113dp"
+        android:fontFamily="@font/roboto_thin"
+        android:text="@string/CIDER_SubName"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:layout_width="157dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginEnd="1083dp"
+        android:fontFamily="@font/roboto"
+        android:text="￦ 4,500"
+        android:textColor="#F58D6B"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <ImageButton
+        android:id="@+id/bringButton"
+        android:layout_width="189dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="178dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="27dp"
+        android:background="@drawable/click_damgi_button"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <LinearLayout
+        android:layout_width="290dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="809dp"
+        android:layout_marginTop="178dp"
+        android:layout_marginEnd="219dp"
+        android:layout_marginBottom="27dp"
+        android:background="@drawable/plusminusbackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+        app:layout_constraintVertical_bias="0.48">
+
+        <ImageButton
+            android:id="@+id/minusButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/click_minus_button" />
+
+        <TextView
+            android:id="@+id/textNumber"
+            android:layout_width="71dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="36dp"
+            android:fontFamily="@font/interbold"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="#000000"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/plusButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="43dp"
+            android:background="@drawable/click_plus_button" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
