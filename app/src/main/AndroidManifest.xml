@@ -21,51 +21,51 @@
 
 
         <activity
-            android:name=".WebView"
+            android:name=".TestWebView"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity6Sub"
+            android:name="com.chocho.MCA_Restaurant.SubDringItemActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity5Sub"
+            android:name="com.chocho.MCA_Restaurant.SubStakeItemActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity4Sub"
+            android:name="com.chocho.MCA_Restaurant.SubAppetizerItemActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity3Sub"
+            android:name="com.chocho.MCA_Restaurant.SubPizzaItemActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity2Sub"
+            android:name="com.chocho.MCA_Restaurant.SubPastaItemActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity2"
+            android:name="com.chocho.MCA_Restaurant.SubPastaActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity3"
+            android:name="com.chocho.MCA_Restaurant.SubPizzaActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity4"
+            android:name="com.chocho.MCA_Restaurant.SubAppetizerActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity5"
+            android:name="com.chocho.MCA_Restaurant.SubStakeActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.MainActivity6"
+            android:name="com.chocho.MCA_Restaurant.SubDrinkActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.ActivityPaymentList"
+            android:name="com.chocho.MCA_Restaurant.PaymentListActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="landscape" >

@@ -9,21 +9,21 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
-class SubActivityRepo {
-    fun getData(): LiveData<MutableList<Meat>> {
-        val mutableData = MutableLiveData<MutableList<Meat>>()
+class FirebaseActivityRepo {
+    fun getData(): LiveData<MutableList<MeatDataClass>> {
+        val mutableData = MutableLiveData<MutableList<MeatDataClass>>()
         val database = Firebase.database
         val myRef = database.getReference("table")
 
         myRef.addValueEventListener(object : ValueEventListener {
-            val listData: MutableList<Meat> = mutableListOf<Meat>()
+            val listData: MutableList<MeatDataClass> = mutableListOf<MeatDataClass>()
 
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 if (snapshot.exists()){
                     listData.clear()
                     for (meatSnapshot in snapshot.children){
-                        val getData = meatSnapshot.getValue(Meat::class.java)
+                        val getData = meatSnapshot.getValue(MeatDataClass::class.java)
                         listData.add(getData!!)
 
                         mutableData.value = listData

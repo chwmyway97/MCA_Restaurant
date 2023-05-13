@@ -1,11 +1,9 @@
 package com.chocho.MCA_Restaurant
 
 import android.annotation.SuppressLint
-import android.app.ActivityManager
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -18,9 +16,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.delay
 
-class WebView : AppCompatActivity() {
+class TestWebView : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +29,7 @@ class WebView : AppCompatActivity() {
         val PayRemoveButton = findViewById<Button>(R.id.PayRemove)
         PayRemoveButton.setOnClickListener {
             Toast.makeText(this, "결제가 취소되었습니다.", Toast.LENGTH_SHORT).show()
-            val payIntent = Intent(this, MainActivity2::class.java)
+            val payIntent = Intent(this, SubPastaActivity::class.java)
             startActivity(payIntent)
         }
 
@@ -57,7 +54,7 @@ class WebView : AppCompatActivity() {
                     live.add(value.toString())
 
 
-                    val firebaseIntent = Intent(this@WebView, MainActivity::class.java)
+                    val firebaseIntent = Intent(this@TestWebView, MainActivity::class.java)
 
 
                     val mDatabase = FirebaseDatabase.getInstance()
@@ -69,7 +66,7 @@ class WebView : AppCompatActivity() {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             live.clear()
                             for (messageData in snapshot.children) {
-                                val getData = messageData.getValue(Meat::class.java)
+                                val getData = messageData.getValue(MeatDataClass::class.java)
                                 live.add(getData!!)
                                 Log.d("궁금해", live.toString())
                                 kyky.setValue(live)

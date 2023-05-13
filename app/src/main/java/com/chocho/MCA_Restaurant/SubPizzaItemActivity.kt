@@ -1,7 +1,6 @@
 package com.chocho.MCA_Restaurant
 
 import android.annotation.SuppressLint
-import android.app.ActivityManager
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioManager
@@ -12,14 +11,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.MotionEvent
-import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class MainActivity2Sub : AppCompatActivity() {
+class SubPizzaItemActivity : AppCompatActivity() {
 
     var number = 1
     private var soundPool: SoundPool? = null
@@ -27,7 +24,6 @@ class MainActivity2Sub : AppCompatActivity() {
     private var sound2 = 0
     private var sound3 = 0
     private var sound4 = 0
-
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,259 +43,12 @@ class MainActivity2Sub : AppCompatActivity() {
         sound2 = soundPool!!.load(this, R.raw.sound2, 1)
         sound3 = soundPool!!.load(this, R.raw.sound3, 1)
         sound4 = soundPool!!.load(this, R.raw.sound4, 1)
-//            soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
 
         overridePendingTransition(R.anim.fade_in, R.anim.none)
-
-
-        val value = intent.getIntExtra("key1", 0)
+        val value = intent.getIntExtra("key1",0)
         Log.d("값", "$value")
         if (value == 1) {
-
-            setContentView(R.layout.activity_main_sub2_1)
-
-
-            val plusButton = findViewById<ImageButton>(R.id.plusButton)
-            val minusButton = findViewById<ImageButton>(R.id.minusButton)
-            val pmText = findViewById<TextView>(R.id.textNumber)
-
-
-            plusButton.setOnLongClickListener {
-
-                handler1_up.post(runnable1_up)
-                false
-            }
-
-            minusButton.setOnLongClickListener {
-
-                handler1_down.post(runnable1_down)
-                false
-            }
-
-            plusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) {//눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-                    number++
-                    if (number >= 10) {
-                        number = 10
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_up.removeCallbacks(runnable1_up)
-                }
-                false
-
-            }
-            minusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                    number--
-                    if (number <= 1) {
-                        number = 1
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_down.removeCallbacks(runnable1_down)
-                }
-                false
-
-            }
-
-
-            //갈릭 페뇨 파스타 구매 버튼
-            val bringButton = findViewById<ImageButton>(R.id.bringButton)
-            bringButton.setOnClickListener{
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                val database = FirebaseDatabase.getInstance()
-                val myRef = database.getReference("table")
-                myRef.child("1").setValue(Meat("갈릭 페뇨 파스타",number,number*24800))
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-
-            }
-
-
-            val backButton = findViewById<ImageButton>(R.id.backButton_white)
-            backButton.setOnClickListener {
-
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-            }
-        }
-        if (value == 2) {
-            setContentView(R.layout.activity_main_sub2_2)
-            val backButton = findViewById<ImageButton>(R.id.backButton_white)
-
-            val plusButton = findViewById<ImageButton>(R.id.plusButton)
-            val minusButton = findViewById<ImageButton>(R.id.minusButton)
-            val pmText = findViewById<TextView>(R.id.textNumber)
-            plusButton.setOnLongClickListener {
-
-                handler1_up.post(runnable1_up)
-                false
-            }
-            minusButton.setOnLongClickListener {
-
-                handler1_down.post(runnable1_down)
-                false
-            }
-            plusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                    number++
-                    if (number >= 10) {
-                        number = 10
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_up.removeCallbacks(runnable1_up)
-                }
-                false
-
-            }
-            minusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                    number--
-                    if (number <= 1) {
-                        number = 1
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_down.removeCallbacks(runnable1_down)
-                }
-                false
-
-            }
-
-            //트리플 갈릭 파스타 구매 버튼
-            val bringButton = findViewById<ImageButton>(R.id.bringButton)
-            bringButton.setOnClickListener{
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                val database = Firebase.database
-                val myRef = database.getReference("table")
-                myRef.child("2").setValue(Meat("트리플 갈릭 파스타",number,number*24800))
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-
-
-            }
-
-
-            backButton.setOnClickListener {
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-            }
-        }
-
-        if (value == 3) {
-            setContentView(R.layout.activity_main_sub2_3)
-
-            val plusButton = findViewById<ImageButton>(R.id.plusButton)
-            val minusButton = findViewById<ImageButton>(R.id.minusButton)
-            val pmText = findViewById<TextView>(R.id.textNumber)
-            plusButton.setOnLongClickListener {
-                handler1_up.post(runnable1_up)
-                false
-            }
-            minusButton.setOnLongClickListener {
-
-                handler1_down.post(runnable1_down)
-                false
-            }
-            plusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                    number++
-                    if (number >= 10) {
-                        number = 10
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_up.removeCallbacks(runnable1_up)
-                }
-                false
-
-            }
-            minusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                    number--
-                    if (number <= 1) {
-                        number = 1
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_down.removeCallbacks(runnable1_down)
-                }
-                false
-
-            }
-
-            //실시간 데이터 베이스
-            val bringButton = findViewById<ImageButton>(R.id.bringButton)
-            bringButton.setOnClickListener{
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                val database = Firebase.database
-                val myRef = database.getReference("table")
-                myRef.child("3").setValue(Meat("갈릭 까르보나라",number,number*25500))
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-
-            }
-
-            val backButton = findViewById<ImageButton>(R.id.backButton_white)
-            backButton.setOnClickListener {
-
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-
-
-            }
-        }
-
-        if (value == 4) {
-            setContentView(R.layout.activity_main_sub2_4)
-
+            setContentView(R.layout.activity_main_sub3_1)
             //증감
             val plusButton = findViewById<ImageButton>(R.id.plusButton)
             val minusButton = findViewById<ImageButton>(R.id.minusButton)
@@ -309,16 +58,13 @@ class MainActivity2Sub : AppCompatActivity() {
                 false
             }
             minusButton.setOnLongClickListener {
-
                 handler1_down.post(runnable1_down)
                 false
             }
             plusButton.setOnTouchListener {_,event->
-
                 //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)//눌렀을 때 동작
                     number++
                     if (number >= 10) {
                         number = 10
@@ -332,11 +78,9 @@ class MainActivity2Sub : AppCompatActivity() {
 
             }
             minusButton.setOnTouchListener {_,event->
-
                 //터치 이벤트 리스너 등록(누를때)
                 if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
                     soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
                     number--
                     if (number <= 1) {
                         number = 1
@@ -354,48 +98,254 @@ class MainActivity2Sub : AppCompatActivity() {
             val bringButton = findViewById<ImageButton>(R.id.bringButton)
             bringButton.setOnClickListener{
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
                 val database = Firebase.database
                 val myRef = database.getReference("table")
-                myRef.child("4").setValue(Meat("아 라 비 아 따",number,number*25500))
-                intent = Intent(this, MainActivity2::class.java)
+                myRef.child("8").setValue(MeatDataClass("단호박 크림 피자",number,number*24800))
+                intent = Intent(this, SubPizzaActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
+
 
             }
             //백버튼
             val backButton = findViewById<ImageButton>(R.id.backButton_white)
             backButton.setOnClickListener {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                intent = Intent(this, SubPizzaActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent)
+            }
+        }
+        if (value == 2) {
+            setContentView(R.layout.activity_main_sub3_2)
+            //증감
+            val plusButton = findViewById<ImageButton>(R.id.plusButton)
+            val minusButton = findViewById<ImageButton>(R.id.minusButton)
+            val pmText = findViewById<TextView>(R.id.textNumber)
+            plusButton.setOnLongClickListener {
+                handler1_up.post(runnable1_up)
+                false
+            }
+            minusButton.setOnLongClickListener {
+                handler1_down.post(runnable1_down)
+                false
+            }
+            plusButton.setOnTouchListener {_,event->
+                //터치 이벤트 리스너 등록(누를때)
+                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
+                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                    number++
+                    if (number >= 10) {
+                        number = 10
+                    }
+                    pmText.text = number.toString()
+                }
+                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
+                    handler1_up.removeCallbacks(runnable1_up)
+                }
+                false
 
-                intent = Intent(this, MainActivity2::class.java)
+            }
+            minusButton.setOnTouchListener {_,event->
+                //터치 이벤트 리스너 등록(누를때)
+                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
+                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                    number--
+                    if (number <= 1) {
+                        number = 1
+                    }
+                    pmText.text = number.toString()
+                }
+                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
+                    handler1_down.removeCallbacks(runnable1_down)
+                }
+                false
+
+            }
+
+            //실시간 데이터 베이스
+            val bringButton = findViewById<ImageButton>(R.id.bringButton)
+            bringButton.setOnClickListener{
+                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                val database = Firebase.database
+                val myRef = database.getReference("table")
+                myRef.child("9").setValue(MeatDataClass("고르곤졸라 피자",number,number*25800))
+                intent = Intent(this, SubPizzaActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent)
+
+
+            }
+            //백버튼
+            val backButton = findViewById<ImageButton>(R.id.backButton_white)
+            backButton.setOnClickListener {
+                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                intent = Intent(this, SubPizzaActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent)
+            }
+        }
+
+        if (value == 3) {
+            setContentView(R.layout.activity_main_sub3_3)
+            //증감
+            val plusButton = findViewById<ImageButton>(R.id.plusButton)
+            val minusButton = findViewById<ImageButton>(R.id.minusButton)
+            val pmText = findViewById<TextView>(R.id.textNumber)
+            plusButton.setOnLongClickListener {
+                handler1_up.post(runnable1_up)
+                false
+            }
+            minusButton.setOnLongClickListener {
+                handler1_down.post(runnable1_down)
+                false
+            }
+            plusButton.setOnTouchListener {_,event->
+                //터치 이벤트 리스너 등록(누를때)
+                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
+                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                    number++
+                    if (number >= 10) {
+                        number = 10
+                    }
+                    pmText.text = number.toString()
+                }
+                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
+                    handler1_up.removeCallbacks(runnable1_up)
+                }
+                false
+
+            }
+            minusButton.setOnTouchListener {_,event->
+                //터치 이벤트 리스너 등록(누를때)
+                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
+                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                    number--
+                    if (number <= 1) {
+                        number = 1
+                    }
+                    pmText.text = number.toString()
+                }
+                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
+                    handler1_down.removeCallbacks(runnable1_down)
+                }
+                false
+
+            }
+
+            //실시간 데이터 베이스
+            val bringButton = findViewById<ImageButton>(R.id.bringButton)
+            bringButton.setOnClickListener{
+                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                val database = Firebase.database
+                val myRef = database.getReference("table")
+                myRef.child("10").setValue(MeatDataClass("갈릭 스노윙 피자",number,number*26800))
+                intent = Intent(this, SubPizzaActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent)
+            }
+
+            //백버튼
+            val backButton = findViewById<ImageButton>(R.id.backButton_white)
+            backButton.setOnClickListener {
+                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                intent = Intent(this, SubPizzaActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent)
+            }
+        }
+
+        if (value == 4) {
+            setContentView(R.layout.activity_main_sub3_4)
+            //증감
+            val plusButton = findViewById<ImageButton>(R.id.plusButton)
+            val minusButton = findViewById<ImageButton>(R.id.minusButton)
+            val pmText = findViewById<TextView>(R.id.textNumber)
+            plusButton.setOnLongClickListener {
+                handler1_up.post(runnable1_up)
+                false
+            }
+            minusButton.setOnLongClickListener {
+                handler1_down.post(runnable1_down)
+                false
+            }
+            plusButton.setOnTouchListener {_,event->
+                //터치 이벤트 리스너 등록(누를때)
+                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
+                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                    number++
+                    if (number >= 10) {
+                        number = 10
+                    }
+                    pmText.text = number.toString()
+                }
+                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
+                    handler1_up.removeCallbacks(runnable1_up)
+                }
+                false
+
+            }
+            minusButton.setOnTouchListener {_,event->
+                //터치 이벤트 리스너 등록(누를때)
+                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
+                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                    number--
+                    if (number <= 1) {
+                        number = 1
+                    }
+                    pmText.text = number.toString()
+                }
+                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
+                    handler1_down.removeCallbacks(runnable1_down)
+                }
+                false
+
+            }
+
+            //실시간 데이터 베이스
+            val bringButton = findViewById<ImageButton>(R.id.bringButton)
+            bringButton.setOnClickListener{
+                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                val database = Firebase.database
+                val myRef = database.getReference("table")
+                myRef.child("11").setValue(MeatDataClass("마르&부라타 피자",number,number*27500))
+                intent = Intent(this, SubPizzaActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent)
+                intent = Intent(this, SubPizzaActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent)
+
+
+            }
+            //백버튼
+            val backButton = findViewById<ImageButton>(R.id.backButton_white)
+            backButton.setOnClickListener {
+                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+                intent = Intent(this, SubPizzaActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
             }
         }
 
         if (value == 5) {
-            setContentView(R.layout.activity_main_sub2_5)
-
+            setContentView(R.layout.activity_main_sub3_5)
+            //증감
             val plusButton = findViewById<ImageButton>(R.id.plusButton)
             val minusButton = findViewById<ImageButton>(R.id.minusButton)
             val pmText = findViewById<TextView>(R.id.textNumber)
             plusButton.setOnLongClickListener {
-
                 handler1_up.post(runnable1_up)
                 false
             }
             minusButton.setOnLongClickListener {
-
                 handler1_down.post(runnable1_down)
                 false
             }
             plusButton.setOnTouchListener {_,event->
-
                 //터치 이벤트 리스너 등록(누를때)
                 if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
                     soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
                     number++
                     if (number >= 10) {
                         number = 10
@@ -409,11 +359,9 @@ class MainActivity2Sub : AppCompatActivity() {
 
             }
             minusButton.setOnTouchListener {_,event->
-
                 //터치 이벤트 리스너 등록(누를때)
                 if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
                     soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
                     number--
                     if (number <= 1) {
                         number = 1
@@ -431,186 +379,30 @@ class MainActivity2Sub : AppCompatActivity() {
             val bringButton = findViewById<ImageButton>(R.id.bringButton)
             bringButton.setOnClickListener{
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
                 val database = Firebase.database
                 val myRef = database.getReference("table")
-                myRef.child("5").setValue(Meat("명란 파스타",number,number*26200))
-                intent = Intent(this, MainActivity2::class.java)
+                myRef.child("12").setValue(MeatDataClass("바질 부라타 피자",number,number*27800))
+                intent = Intent(this, SubPizzaActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
 
+
             }
+            //백버튼
             val backButton = findViewById<ImageButton>(R.id.backButton_white)
             backButton.setOnClickListener {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-            }
-        }
-
-        if (value == 6) {
-            setContentView(R.layout.activity_main_sub2_6)
-
-            val plusButton = findViewById<ImageButton>(R.id.plusButton)
-            val minusButton = findViewById<ImageButton>(R.id.minusButton)
-            val pmText = findViewById<TextView>(R.id.textNumber)
-            plusButton.setOnLongClickListener {
-
-                handler1_up.post(runnable1_up)
-                false
-            }
-            minusButton.setOnLongClickListener {
-
-                handler1_down.post(runnable1_down)
-                false
-            }
-            plusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                    number++
-                    if (number >= 10) {
-                        number = 10
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_up.removeCallbacks(runnable1_up)
-                }
-                false
-
-            }
-            minusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                    number--
-                    if (number <= 1) {
-                        number = 1
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_down.removeCallbacks(runnable1_down)
-                }
-                false
-
-            }
-
-            //실시간 데이터 베이스
-            val bringButton = findViewById<ImageButton>(R.id.bringButton)
-            bringButton.setOnClickListener{
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                val database = Firebase.database
-                val myRef = database.getReference("table")
-                myRef.child("6").setValue(Meat("해산물 수프 파스타",number,number*26200))
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-
-            }
-
-            val backButton = findViewById<ImageButton>(R.id.backButton_white)
-            backButton.setOnClickListener {
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-            }
-        }
-
-        if (value == 7) {
-            setContentView(R.layout.activity_main_sub2_7)
-
-            val plusButton = findViewById<ImageButton>(R.id.plusButton)
-            val minusButton = findViewById<ImageButton>(R.id.minusButton)
-            val pmText = findViewById<TextView>(R.id.textNumber)
-            plusButton.setOnLongClickListener {
-
-                handler1_up.post(runnable1_up)
-                false
-            }
-            minusButton.setOnLongClickListener {
-
-                handler1_down.post(runnable1_down)
-                false
-            }
-            plusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                    number++
-                    if (number >= 10) {
-                        number = 10
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_up.removeCallbacks(runnable1_up)
-                }
-                false
-
-            }
-            minusButton.setOnTouchListener {_,event->
-
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                    number--
-                    if (number <= 1) {
-                        number = 1
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_down.removeCallbacks(runnable1_down)
-                }
-                false
-
-            }
-
-            //실시간 데이터 베이스
-            val bringButton = findViewById<ImageButton>(R.id.bringButton)
-            bringButton.setOnClickListener{
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                val database = Firebase.database
-                val myRef = database.getReference("table")
-                myRef.child("7").setValue(Meat("랍스타 크림 파스타",number,number*27500))
-                intent = Intent(this, MainActivity2::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-
-            }
-
-            val backButton = findViewById<ImageButton>(R.id.backButton_white)
-            backButton.setOnClickListener {
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
-                intent = Intent(this, MainActivity2::class.java)
+                intent = Intent(this, SubPizzaActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
             }
         }
 
     }
-
     private val handler1_up: Handler = Handler()
     private val runnable1_up: Runnable = object : Runnable {
         override fun run() {
             soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
             val pmText = findViewById<TextView>(R.id.textNumber)
             // Print out your letter here...
             number++
@@ -625,8 +417,6 @@ class MainActivity2Sub : AppCompatActivity() {
     private val handler1_down: Handler = Handler()
     private val runnable1_down: Runnable = object : Runnable {
         override fun run() {
-            soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-
             val pmText = findViewById<TextView>(R.id.textNumber)
             // Print out your letter here...
             number--
@@ -641,6 +431,5 @@ class MainActivity2Sub : AppCompatActivity() {
     }
     //백키를 눌렀을때
     override fun onBackPressed() {}
-    //홈키를 눌렀을때
 
 }

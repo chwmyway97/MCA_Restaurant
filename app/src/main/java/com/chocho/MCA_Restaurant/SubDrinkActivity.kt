@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-class MainActivity6 : AppCompatActivity() {
+class SubDrinkActivity : AppCompatActivity() {
 
-    private val items = mutableListOf<MainActivityModel>()
+    private val items = mutableListOf<SubActivityModel>()
     private var soundPool: SoundPool? = null
     private var sound1 = 0
     private var sound2 = 0
@@ -53,7 +53,7 @@ class MainActivity6 : AppCompatActivity() {
         sound4 = soundPool!!.load(this, R.raw.sound4, 1)
 
         pastaButton.setOnClickListener {
-            val intent = Intent(this, MainActivity2::class.java)
+            val intent = Intent(this, SubPastaActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
 
@@ -61,7 +61,7 @@ class MainActivity6 : AppCompatActivity() {
         }
 
         pizzaButton.setOnClickListener {
-            val intent = Intent(this, MainActivity3::class.java)
+            val intent = Intent(this, SubPizzaActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
 
@@ -69,7 +69,7 @@ class MainActivity6 : AppCompatActivity() {
         }
 
         appetizerButton.setOnClickListener {
-            val intent = Intent(this, MainActivity4::class.java)
+            val intent = Intent(this, SubAppetizerActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
 
@@ -77,93 +77,93 @@ class MainActivity6 : AppCompatActivity() {
         }
 
         stakeButton.setOnClickListener {
-            val intent = Intent(this, MainActivity5::class.java)
+            val intent = Intent(this, SubStakeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
             startActivity(intent)
         }
 
         bagButton.setOnClickListener {
-            val intent = Intent(this, ActivityPaymentList::class.java)
+            val intent = Intent(this, PaymentListActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
             startActivity(intent)
         }
 
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.water_orange, Text = "오렌지 에이드" , 6900
             )
         )
 
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.water_lemon, Text = "레몬 에이드", 6900
             )
         )
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.water_jamong, Text = "자몽 에이드", 6900
             )
         )
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.water_red, Text = "레드 와인 쿨러", 6900
             )
         )
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.water_white, Text = "화이트 와인 쿨러", 6900
             )
         )
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.water_7star, Text = "사이다", 4500
             )
         )
         
         val recyclerView = findViewById<RecyclerView>(R.id.main6)
-        val mainActivityAdapter = MainActivityAdapter(this, items)
-        recyclerView.adapter = mainActivityAdapter
+        val subActivityAdapter = SubActivityAdapter(this, items)
+        recyclerView.adapter = subActivityAdapter
         recyclerView.layoutManager = GridLayoutManager(this, 2)
 
 
 
 //클릭함수
-        mainActivityAdapter.itemClick = object : MainActivityAdapter.ItemClick {
+        subActivityAdapter.itemClick = object : SubActivityAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 if (items[position].Text == "오렌지 에이드") {
-                    intent = Intent(this@MainActivity6, MainActivity6Sub::class.java)
+                    intent = Intent(this@SubDrinkActivity, SubDringItemActivity::class.java)
                     intent.putExtra("key1", 1)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "레몬 에이드") {
-                    intent = Intent(this@MainActivity6, MainActivity6Sub::class.java)
+                    intent = Intent(this@SubDrinkActivity, SubDringItemActivity::class.java)
                     intent.putExtra("key1", 2)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "자몽 에이드") {
-                    intent = Intent(this@MainActivity6, MainActivity6Sub::class.java)
+                    intent = Intent(this@SubDrinkActivity, SubDringItemActivity::class.java)
                     intent.putExtra("key1", 3)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "레드 와인 쿨러") {
-                    intent = Intent(this@MainActivity6, MainActivity6Sub::class.java)
+                    intent = Intent(this@SubDrinkActivity, SubDringItemActivity::class.java)
                     intent.putExtra("key1", 4)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "화이트 와인 쿨러") {
-                    intent = Intent(this@MainActivity6, MainActivity6Sub::class.java)
+                    intent = Intent(this@SubDrinkActivity, SubDringItemActivity::class.java)
                     intent.putExtra("key1", 5)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "사이다") {
-                    intent = Intent(this@MainActivity6, MainActivity6Sub::class.java)
+                    intent = Intent(this@SubDrinkActivity, SubDringItemActivity::class.java)
                     intent.putExtra("key1", 6)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)

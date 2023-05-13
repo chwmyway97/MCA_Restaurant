@@ -6,7 +6,7 @@
     android:layout_margin="15sp"
     android:background="@drawable/click_item_round"
     android:orientation="horizontal"
-    tools:context=".MainActivity2"
+    tools:context=".SubPastaActivity"
     android:elevation="50dp">
 
     <ImageView

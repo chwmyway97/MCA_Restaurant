@@ -1,21 +1,19 @@
 package com.chocho.MCA_Restaurant
 
-
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
+import android.icu.text.DecimalFormat
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import okhttp3.*
@@ -25,148 +23,92 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 
-class ActivityPaymentList : AppCompatActivity() {
-
-    private val dec = java.text.DecimalFormat("###,###")
-
-    private var totalAmountSum = 0
+class TestKakopay : AppCompatActivity() {
 
     private val client = OkHttpClient()
     private var receivedIntent: Intent? = null
-    private val executor = Executors.newSingleThreadScheduledExecutor()
+    val executor = Executors.newSingleThreadScheduledExecutor()
 
     private val database = Firebase.database
     private val tableDatabase = database.getReference("table")
     private val masterDatabase = database.getReference("master")
-    private val table: MutableList<Any> = mutableListOf()
+    private val live: MutableList<Any> = mutableListOf()
 
-
-    //리사이클러뷰 변수
-    private lateinit var adapter: SublistAdapter
-    private val viewModel by lazy { ViewModelProvider(this).get(SubViewModel::class.java) }
-
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_payment_list)
+        setContentView(R.layout.activity)
 
-        // 애니매이션
-        overridePendingTransition(R.anim.fade_in, R.anim.none)
+        /** 키해시
+        try {
+        val information =
+        packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+        val signatures = information.signingInfo.apkContentsSigners
+        val md = MessageDigest.getInstance("SHA")
+        for (signature in signatures) {
+        val md: MessageDigest = MessageDigest.getInstance("SHA")
+        md.update(signature.toByteArray())
+        var hashcode = String(Base64.encode(md.digest(), 0))
+        Log.d("hashcode", "" + hashcode)
+        }
+        } catch (e: Exception) {
+        Log.d("hashcode", "에러::" + e.toString())
 
-        //이미지버튼 변수
-        val backButton = findViewById<ImageButton>(R.id.backButton)
-        val paymentButton = findViewById<ImageButton>(R.id.payment)
-        val removeButton = findViewById<ImageButton>(R.id.removeButton)
+        }
+         **/
 
-        //리사이클러뷰 변수
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView2)
+        val button = findViewById<Button>(R.id.button)
+        val toastString = "결제 창으로 넘어 갑니다"
+        val toastDuration = Toast.LENGTH_SHORT
+        val toastPayment = Toast.makeText(this, toastString, toastDuration)
 
-        //텍스트 뷰 변수
-        val totalAmount = findViewById<TextView>(R.id.totalAmount)
-
-        //intent 변수
-        val intentMainActivity2 = Intent(this, MainActivity2::class.java)
-        val intentMainActivity = Intent(this, MainActivity::class.java)
-
-        //메세지 가져오기
-        val deleteMessage = this.resources.getString(R.string.deleteMessage)
-        val notPayListMessage = this.resources.getString(R.string.notPayListMessage)
-        val notDeleteListMessage = this.resources.getString(R.string.notDeleteListMessage)
-
-        //toast 메세지
-        val deleteToast = Toast.makeText(this, deleteMessage, Toast.LENGTH_SHORT)
-        val notPayListToast = Toast.makeText(this, notPayListMessage, Toast.LENGTH_SHORT)
-        val notDeleteListToast = Toast.makeText(this, notDeleteListMessage, Toast.LENGTH_SHORT)
-
-
-        //뒤로가기 버튼
-        backButton.setOnClickListener {
-            intentMainActivity2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            startActivity(intentMainActivity2)
+        button.setOnClickListener {
+            toastPayment.show()
         }
 
-        //리사이클러뷰 파이어베이스 연결
-        adapter = SublistAdapter(this)
-
-        //RecyclerView 같은 경우 매니져를 설정해 줘야한다.
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = adapter
-        observerData()
-
-        //테이블 데이터베이스에서 가격 정보 가져오기
-        tableDatabase.addValueEventListener(object : ValueEventListener {
-
-            @SuppressLint("SetTextI18n")
+        //파이어베이스 table 가격값 가져오기
+        tableDatabase.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(tableSnapshot: DataSnapshot) {
+                var sum = 0
+                val dec = DecimalFormat("###,###")
+                if (tableSnapshot.exists()) {
 
-                if (tableSnapshot.exists()) { //존재할 때
-                    //각 meatValue 값 (각 주문한 음식의 가격) 을 다 더함
                     for (tableMeatValue in tableSnapshot.children) {
 
-                        totalAmountSum += tableMeatValue.child("meatValue").getValue(Int::class.java)!!
+                        sum += tableMeatValue.child("meatValue").getValue(Int::class.java)!!
 
+                        // 카카오 페이 결제 버튼
+                        val kakaoPay = findViewById<ImageButton>(R.id.paybtn)
+                        kakaoPay.setOnClickListener {
+                            kakaoPayReady("1번 테이블",sum)
+                        }
                     }
 
-                    //결제 버튼(카카오페이)
-                    paymentButton.setOnClickListener {
-
-                        kakaoPayReady("1번 테이블", totalAmountSum)
-
-                    }
-
-                    //전체 삭제 버튼
-                    removeButton.setOnClickListener {
-
-                        tableDatabase.removeValue()
-
-                        deleteToast.show()
-
-                        startActivity(intentMainActivity2)
-                    }
-
-                } else { //구매목록이 없을때
-
-                    totalAmountSum = 0
-
-                    paymentButton.setOnClickListener {
-
-                        notPayListToast.show()
-
-                        startActivity(intentMainActivity2)
-
-                    }
-                    removeButton.setOnClickListener {
-
-                        notDeleteListToast.show()
-
-                    }
                 }
-
-                totalAmount.text = "￦ " + dec.format(totalAmountSum)
-
             }
 
             override fun onCancelled(error: DatabaseError) {
-                val errorMessage = "Database operation cancelled: ${error.message}"
-                Toast.makeText(this@ActivityPaymentList, errorMessage, Toast.LENGTH_SHORT).show()
 
             }
         })
-    }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun observerData() {
-        viewModel.fetchData().observe(this, Observer {
+        //파이어베이스 가격값 master 에 저장
 
-            adapter.setListData(it)
-            adapter.notifyDataSetChanged()
 
-        })
+
+
+
 
     }
 
+
+    // 0.5초 주기로 결제 상태 확인
     fun startPollingPaymentStatus(tid: String) {
-        val pollingTask = Runnable { requestPaymentStatus(tid) }
+        val pollingTask = object : Runnable {
+            override fun run() {
+                requestPaymentStatus(tid)
+            }
+        }
         executor.scheduleAtFixedRate(pollingTask, 0, 1, TimeUnit.SECONDS)
     }
 
@@ -176,7 +118,7 @@ class ActivityPaymentList : AppCompatActivity() {
     }
 
     // 결제 준비 단계
-    private fun kakaoPayReady(name: String, pay: Int) {
+    private fun kakaoPayReady( name:String, pay:Int ) {
         val readyUrl = "https://kapi.kakao.com/v1/payment/ready"
         // 파라미터 설정
         val params = HashMap<String, Any>()
@@ -298,7 +240,6 @@ class ActivityPaymentList : AppCompatActivity() {
 
     // 결제 승인 요청
     private fun kakaoPayApprove(pg_token: String, tid: String) {
-
         val approveUrl = "https://kapi.kakao.com/v1/payment/approve"
         val params = HashMap<String, Any>()
         params["cid"] = "TC0ONETIME"
@@ -339,27 +280,17 @@ class ActivityPaymentList : AppCompatActivity() {
                     val jsonObject = JSONObject(responseBody)
                     Log.d("finish", "" + jsonObject)
 
-                    //결제 결과 master 에 넘김
+                    //결제 결과 master에 넘김
                     tableDatabase.addListenerForSingleValueEvent(object : ValueEventListener {
 
-                        override fun onDataChange(tableSnapshot: DataSnapshot) {
-
-                            table.clear()
-
-                            for (tableMeatValue in tableSnapshot.children) {
-
-                                val tableMeatValueData = tableMeatValue.getValue(Meat::class.java)
-
-                                table.add(tableMeatValueData!!)
-
-                                masterDatabase.setValue(table)
-
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            live.clear()
+                            for (messageData in snapshot.children) {
+                                val getData = messageData.getValue(MeatDataClass::class.java)
+                                live.add(getData!!)
+                                Log.d("궁금해", live.toString())
+                                masterDatabase.setValue(live)
                                 tableDatabase.removeValue()
-
-                                val intentMainActivity = Intent(this@ActivityPaymentList,MainActivity::class.java)
-                                startActivity(intentMainActivity)
-
-                                Log.d("테이블 데이터", table.toString())
                             }
 
 
@@ -378,21 +309,4 @@ class ActivityPaymentList : AppCompatActivity() {
             }
         })
     }
-
-    //백키를 눌렀을 때
-    override fun onBackPressed() {}
-
 }
-
-
-//리사이클러뷰 코틀린 설명 잘 되어있는 사이트
-//https://blog.yena.io/studynote/2017/12/06/Android-Kotlin-RecyclerView1.html
-//리사이클러뷰 파이어베이스 리얼타임베이스
-//https://gloria94.tistory.com/19
-
-
-
-
-
-
-

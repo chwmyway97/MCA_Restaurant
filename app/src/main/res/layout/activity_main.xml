@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.139" />
 
     <ImageButton
-        android:id="@+id/main_button"
+        android:id="@+id/mainButton"
         android:layout_width="600dp"
         android:layout_height="100dp"
         android:background="@drawable/click_main_button"

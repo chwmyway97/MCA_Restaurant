@@ -1,7 +1,6 @@
 package com.chocho.MCA_Restaurant
 
 import android.annotation.SuppressLint
-import android.app.ActivityManager
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioManager
@@ -17,7 +16,7 @@ import android.widget.TextView
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class MainActivity3Sub : AppCompatActivity() {
+class SubAppetizerItemActivity : AppCompatActivity() {
 
     var number = 1
     private var soundPool: SoundPool? = null
@@ -45,11 +44,12 @@ class MainActivity3Sub : AppCompatActivity() {
         sound3 = soundPool!!.load(this, R.raw.sound3, 1)
         sound4 = soundPool!!.load(this, R.raw.sound4, 1)
 
+
         overridePendingTransition(R.anim.fade_in, R.anim.none)
         val value = intent.getIntExtra("key1",0)
         Log.d("값", "$value")
         if (value == 1) {
-            setContentView(R.layout.activity_main_sub3_1)
+            setContentView(R.layout.activity_main_sub4_1)
             //증감
             val plusButton = findViewById<ImageButton>(R.id.plusButton)
             val minusButton = findViewById<ImageButton>(R.id.minusButton)
@@ -64,8 +64,8 @@ class MainActivity3Sub : AppCompatActivity() {
             }
             plusButton.setOnTouchListener {_,event->
                 //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)//눌렀을 때 동작
+                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
+                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
                     number++
                     if (number >= 10) {
                         number = 10
@@ -101,24 +101,25 @@ class MainActivity3Sub : AppCompatActivity() {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
                 val database = Firebase.database
                 val myRef = database.getReference("table")
-                myRef.child("8").setValue(Meat("단호박 크림 피자",number,number*24800))
-                intent = Intent(this, MainActivity3::class.java)
+                myRef.child("13").setValue(MeatDataClass("시저 샐러드",number,number*19500))
+                intent = Intent(this, SubAppetizerActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
 
 
             }
+
             //백버튼
             val backButton = findViewById<ImageButton>(R.id.backButton_white)
             backButton.setOnClickListener {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-                intent = Intent(this, MainActivity3::class.java)
+                intent = Intent(this, SubAppetizerActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
             }
         }
         if (value == 2) {
-            setContentView(R.layout.activity_main_sub3_2)
+            setContentView(R.layout.activity_main_sub4_2)
             //증감
             val plusButton = findViewById<ImageButton>(R.id.plusButton)
             val minusButton = findViewById<ImageButton>(R.id.minusButton)
@@ -170,8 +171,8 @@ class MainActivity3Sub : AppCompatActivity() {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
                 val database = Firebase.database
                 val myRef = database.getReference("table")
-                myRef.child("9").setValue(Meat("고르곤졸라 피자",number,number*25800))
-                intent = Intent(this, MainActivity3::class.java)
+                myRef.child("14").setValue(MeatDataClass("갈릭 타워 샐러드",number,number*19900))
+                intent = Intent(this, SubAppetizerActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
 
@@ -181,14 +182,14 @@ class MainActivity3Sub : AppCompatActivity() {
             val backButton = findViewById<ImageButton>(R.id.backButton_white)
             backButton.setOnClickListener {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-                intent = Intent(this, MainActivity3::class.java)
+                intent = Intent(this, SubAppetizerActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
             }
         }
 
         if (value == 3) {
-            setContentView(R.layout.activity_main_sub3_3)
+            setContentView(R.layout.activity_main_sub4_3)
             //증감
             val plusButton = findViewById<ImageButton>(R.id.plusButton)
             val minusButton = findViewById<ImageButton>(R.id.minusButton)
@@ -240,24 +241,24 @@ class MainActivity3Sub : AppCompatActivity() {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
                 val database = Firebase.database
                 val myRef = database.getReference("table")
-                myRef.child("10").setValue(Meat("갈릭 스노윙 피자",number,number*26800))
-                intent = Intent(this, MainActivity3::class.java)
+                myRef.child("15").setValue(MeatDataClass("케일 샐러드",number,number*19900))
+                intent = Intent(this, SubAppetizerActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
-            }
 
+            }
             //백버튼
             val backButton = findViewById<ImageButton>(R.id.backButton_white)
             backButton.setOnClickListener {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-                intent = Intent(this, MainActivity3::class.java)
+                intent = Intent(this, SubAppetizerActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
             }
         }
 
         if (value == 4) {
-            setContentView(R.layout.activity_main_sub3_4)
+            setContentView(R.layout.activity_main_sub4_4)
             //증감
             val plusButton = findViewById<ImageButton>(R.id.plusButton)
             val minusButton = findViewById<ImageButton>(R.id.minusButton)
@@ -274,6 +275,7 @@ class MainActivity3Sub : AppCompatActivity() {
                 //터치 이벤트 리스너 등록(누를때)
                 if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
                     soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
+
                     number++
                     if (number >= 10) {
                         number = 10
@@ -309,96 +311,22 @@ class MainActivity3Sub : AppCompatActivity() {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
                 val database = Firebase.database
                 val myRef = database.getReference("table")
-                myRef.child("11").setValue(Meat("마르&부라타 피자",number,number*27500))
-                intent = Intent(this, MainActivity3::class.java)
+                myRef.child("16").setValue(MeatDataClass("쉬림프 카슈엘라",number,number*25900))
+                intent = Intent(this, SubAppetizerActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
-                intent = Intent(this, MainActivity3::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-
 
             }
+
             //백버튼
             val backButton = findViewById<ImageButton>(R.id.backButton_white)
             backButton.setOnClickListener {
                 soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-                intent = Intent(this, MainActivity3::class.java)
+                intent = Intent(this, SubAppetizerActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
             }
         }
-
-        if (value == 5) {
-            setContentView(R.layout.activity_main_sub3_5)
-            //증감
-            val plusButton = findViewById<ImageButton>(R.id.plusButton)
-            val minusButton = findViewById<ImageButton>(R.id.minusButton)
-            val pmText = findViewById<TextView>(R.id.textNumber)
-            plusButton.setOnLongClickListener {
-                handler1_up.post(runnable1_up)
-                false
-            }
-            minusButton.setOnLongClickListener {
-                handler1_down.post(runnable1_down)
-                false
-            }
-            plusButton.setOnTouchListener {_,event->
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-                    number++
-                    if (number >= 10) {
-                        number = 10
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_up.removeCallbacks(runnable1_up)
-                }
-                false
-
-            }
-            minusButton.setOnTouchListener {_,event->
-                //터치 이벤트 리스너 등록(누를때)
-                if (event.action == MotionEvent.ACTION_DOWN) { //눌렀을 때 동작
-                    soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-                    number--
-                    if (number <= 1) {
-                        number = 1
-                    }
-                    pmText.text = number.toString()
-                }
-                if (event.action == MotionEvent.ACTION_UP) { //뗐을 때 동작
-                    handler1_down.removeCallbacks(runnable1_down)
-                }
-                false
-
-            }
-
-            //실시간 데이터 베이스
-            val bringButton = findViewById<ImageButton>(R.id.bringButton)
-            bringButton.setOnClickListener{
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-                val database = Firebase.database
-                val myRef = database.getReference("table")
-                myRef.child("12").setValue(Meat("바질 부라타 피자",number,number*27800))
-                intent = Intent(this, MainActivity3::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-
-
-            }
-            //백버튼
-            val backButton = findViewById<ImageButton>(R.id.backButton_white)
-            backButton.setOnClickListener {
-                soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-                intent = Intent(this, MainActivity3::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-            }
-        }
-
     }
     private val handler1_up: Handler = Handler()
     private val runnable1_up: Runnable = object : Runnable {

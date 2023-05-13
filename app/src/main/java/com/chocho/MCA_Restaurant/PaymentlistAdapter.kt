@@ -3,9 +3,7 @@ package com.chocho.MCA_Restaurant
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color.BLACK
 import android.icu.text.DecimalFormat
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,22 +13,21 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.delay
 
 
-class SublistAdapter(private val context: Context) :
-    RecyclerView.Adapter<SublistAdapter.ViewHolder>(){
+class PaymentlistAdapter(private val context: Context) :
+    RecyclerView.Adapter<PaymentlistAdapter.ViewHolder>(){
 
-    private var meatList = mutableListOf<Meat>()
+    private var meatDataClassList = mutableListOf<MeatDataClass>()
 
 
 
-    fun setListData(data: MutableList<Meat>) {
-        meatList = data
+    fun setListData(data: MutableList<MeatDataClass>) {
+        meatDataClassList = data
     }
 
     //화면을 최초 로딩하여 만들어진 View 가 없는 경우,xml 퍼알을 inflate 하여 ViewHolder 를 생성한다.
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SublistAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentlistAdapter.ViewHolder {
 
         val view = LayoutInflater.from(context).inflate(R.layout.activity_bag_item, parent, false)
         return ViewHolder(view)
@@ -39,15 +36,15 @@ class SublistAdapter(private val context: Context) :
 
     //onBindViewHolder : 위의 onCreateViewHolder 에서 만든 view 와 실제 입력되는 각각의 데이터를 연결한다.
     override fun onBindViewHolder(
-        holder: SublistAdapter.ViewHolder,
+        holder: PaymentlistAdapter.ViewHolder,
         @SuppressLint("RecyclerView") position: Int
     ) {
         val dec = DecimalFormat("###,###")
-        val meat: Meat = meatList[position]
-        val money = meat.meatValue
-        var count = meat.meatNumber
+        val meatDataClass: MeatDataClass = meatDataClassList[position]
+        val money = meatDataClass.meatValue
+        var count = meatDataClass.meatNumber
 
-        holder.textName.text = meat.meatMenu
+        holder.textName.text = meatDataClass.meatMenu
         holder.textNumber.text = count.toString()
         holder.textValue.text ="￦ " + dec.format(money)
 
@@ -63,7 +60,7 @@ class SublistAdapter(private val context: Context) :
                     if (count >= 10) {
                         count = 10
                     }
-                    myRef.child(num).setValue(Meat(text, count, count * value))
+                    myRef.child(num).setValue(MeatDataClass(text, count, count * value))
                 }
                 holder.minusButton.setOnClickListener {
                     count--
@@ -71,7 +68,7 @@ class SublistAdapter(private val context: Context) :
                         count = 1
                     }
 
-                    myRef.child(num).setValue(Meat(text, count, count * value))
+                    myRef.child(num).setValue(MeatDataClass(text, count, count * value))
                 }
 
             }
@@ -94,7 +91,7 @@ class SublistAdapter(private val context: Context) :
                             val db = FirebaseDatabase.getInstance()
                             val ref = db.getReference("table")
                             ref.child(num).removeValue()
-                            meatList.removeAt(position)
+                            meatDataClassList.removeAt(position)
                             notifyItemRemoved(position)
                         }
                         .setNegativeButton("No") { dialog, _ ->
@@ -194,7 +191,7 @@ class SublistAdapter(private val context: Context) :
 
 
     override fun getItemCount(): Int {
-        return meatList.size
+        return meatDataClassList.size
     }
 
 

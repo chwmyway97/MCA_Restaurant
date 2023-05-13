@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-class MainActivity2 : AppCompatActivity() {
+class SubPastaActivity : AppCompatActivity() {
 
-    private val items = mutableListOf<MainActivityModel>()
+    private val items = mutableListOf<SubActivityModel>()
     private var soundPool: SoundPool? = null
     private var sound1 = 0
     private var sound2 = 0
@@ -59,7 +59,7 @@ class MainActivity2 : AppCompatActivity() {
 
 
         pizzaButton.setOnClickListener {
-            val intent = Intent(this, MainActivity3::class.java)
+            val intent = Intent(this, SubPizzaActivity::class.java)
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
             startActivity(intent)
@@ -67,7 +67,7 @@ class MainActivity2 : AppCompatActivity() {
 
 
         appetizerButton.setOnClickListener {
-            val intent = Intent(this, MainActivity4::class.java)
+            val intent = Intent(this, SubAppetizerActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
             startActivity(intent)
@@ -75,7 +75,7 @@ class MainActivity2 : AppCompatActivity() {
 
 
         stakeButton.setOnClickListener {
-            val intent = Intent(this, MainActivity5::class.java)
+            val intent = Intent(this, SubStakeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
             startActivity(intent)
@@ -83,109 +83,109 @@ class MainActivity2 : AppCompatActivity() {
 
 
         waterButton.setOnClickListener {
-            val intent = Intent(this, MainActivity6::class.java)
+            val intent = Intent(this, SubDrinkActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
             startActivity(intent)
         }
 
         bagButton.setOnClickListener {
-            val intent = Intent(this, ActivityPaymentList::class.java)
+            val intent = Intent(this, PaymentListActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
             startActivity(intent)
         }
 
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.pasta_garlic, Text = "갈릭 페뇨 파스타", 24800
             )
         )
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.pasta_triple, Text = "트리플 갈릭 파스타", 24800
             )
         )
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.pasta_carbonara, Text = "갈릭 까르보나라", 25500
             )
         )
 
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.pasta_arrabbiata, Text = "아 라 비 아 따", 25500
             )
         )
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.pasta_spicy, Text = "명란 파스타", 26200
             )
         )
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.pasta_ocean, Text = "해산물 수프 파스타", 26200
             )
         )
         items.add(
-            MainActivityModel(
+            SubActivityModel(
                 R.drawable.pasta_crab, Text = "랍스타 크림 파스타", 27500
             )
         )
 
 
         val recyclerView = findViewById<RecyclerView>(R.id.main2)
-        val mainActivityAdapter = MainActivityAdapter(this, items)
-        recyclerView.adapter = mainActivityAdapter
+        val subActivityAdapter = SubActivityAdapter(this, items)
+        recyclerView.adapter = subActivityAdapter
         recyclerView.layoutManager = GridLayoutManager(this, 2)
 
-        mainActivityAdapter.itemClick = object : MainActivityAdapter.ItemClick {
+        subActivityAdapter.itemClick = object : SubActivityAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 if (items[position].Text == "갈릭 페뇨 파스타") {
                     soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-                    intent = Intent(this@MainActivity2, MainActivity2Sub::class.java)
+                    intent = Intent(this@SubPastaActivity, SubPastaItemActivity::class.java)
                     intent.putExtra("key1", 1)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "트리플 갈릭 파스타") {
                     soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-                    intent = Intent(this@MainActivity2, MainActivity2Sub::class.java)
+                    intent = Intent(this@SubPastaActivity, SubPastaItemActivity::class.java)
                     intent.putExtra("key1", 2)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "갈릭 까르보나라") {
                     soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-                    intent = Intent(this@MainActivity2, MainActivity2Sub::class.java)
+                    intent = Intent(this@SubPastaActivity, SubPastaItemActivity::class.java)
                     intent.putExtra("key1", 3)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "아 라 비 아 따") {
                     soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-                    intent = Intent(this@MainActivity2, MainActivity2Sub::class.java)
+                    intent = Intent(this@SubPastaActivity, SubPastaItemActivity::class.java)
                     intent.putExtra("key1", 4)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "명란 파스타") {
                     soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-                    intent = Intent(this@MainActivity2, MainActivity2Sub::class.java)
+                    intent = Intent(this@SubPastaActivity, SubPastaItemActivity::class.java)
                     intent.putExtra("key1", 5)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "해산물 수프 파스타") {
                     soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-                    intent = Intent(this@MainActivity2, MainActivity2Sub::class.java)
+                    intent = Intent(this@SubPastaActivity, SubPastaItemActivity::class.java)
                     intent.putExtra("key1", 6)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
                 }
                 if (items[position].Text == "랍스타 크림 파스타") {
                     soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-                    intent = Intent(this@MainActivity2, MainActivity2Sub::class.java)
+                    intent = Intent(this@SubPastaActivity, SubPastaItemActivity::class.java)
                     intent.putExtra("key1", 7)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
