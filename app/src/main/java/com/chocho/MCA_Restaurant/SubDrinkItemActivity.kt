@@ -6,17 +6,17 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.MotionEvent
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class SubPizzaItemActivity : AppCompatActivity() {
+class SubDrinkItemActivity : AppCompatActivity() {
 
     private lateinit var plusButton: ImageButton
     private lateinit var minusButton: ImageButton
@@ -26,11 +26,12 @@ class SubPizzaItemActivity : AppCompatActivity() {
     private lateinit var textNumber: TextView
 
     //string 가져오기
-    private lateinit var pizzaSpicy: String
-    private lateinit var pizzaJola: String
-    private lateinit var pizzaSnowing: String
-    private lateinit var pizzaBurata: String
-    private lateinit var pizzaGolden: String
+    private lateinit var drinkOrange: String
+    private lateinit var drinkLemon: String
+    private lateinit var drinkJamong: String
+    private lateinit var drinkRed: String
+    private lateinit var drinkWhite: String
+    private lateinit var drink7star: String
 
     private lateinit var itemName: String
     private var itemPrice = 0
@@ -92,7 +93,7 @@ class SubPizzaItemActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -100,10 +101,8 @@ class SubPizzaItemActivity : AppCompatActivity() {
 
     }
 
-
     @SuppressLint("ClickableViewAccessibility")
-    private fun init(){
-
+    private fun init() {
         //전 화면에서 값이 넘어 오는것 받기
         val itemValue = intent.getIntExtra("key", 0)
 
@@ -115,13 +114,15 @@ class SubPizzaItemActivity : AppCompatActivity() {
 
         //값 넘어오는 것에 따라 activity 선택
         when (itemValue) {
-            1 -> setContentView(R.layout.activity_sub_pizza_spicy)
-            2 -> setContentView(R.layout.activity_sub_pizza_jola)
-            3 -> setContentView(R.layout.activity_sub_pizza_snowing)
-            4 -> setContentView(R.layout.activity_sub_pizza_burata)
-            5 -> setContentView(R.layout.activity_sub_pizza_golden)
+            1 -> setContentView(R.layout.activity_sub_drink_orange)
+            2 -> setContentView(R.layout.activity_sub_drink_lemon)
+            3 -> setContentView(R.layout.activity_sub_drink_jamong)
+            4 -> setContentView(R.layout.activity_sub_drink_red)
+            5 -> setContentView(R.layout.activity_sub_drink_white)
+            6 -> setContentView(R.layout.activity_sub_drink_7star)
 
         }
+
         //변수 선언
         textNumber = findViewById(R.id.textNumber)
         plusButton = findViewById(R.id.plusButton)
@@ -130,11 +131,12 @@ class SubPizzaItemActivity : AppCompatActivity() {
         backButtonWhite = findViewById(R.id.backButtonWhite)
 
         //메세지 가져오기
-        pizzaSpicy = this.resources.getString(R.string.pizza_spicy)
-        pizzaJola = this.resources.getString(R.string.pizza_jola)
-        pizzaSnowing = this.resources.getString(R.string.pizza_snowing)
-        pizzaBurata = this.resources.getString(R.string.pizza_burata)
-        pizzaGolden = this.resources.getString(R.string.pizza_golden)
+        drinkOrange = this.resources.getString(R.string.Drink_orange)
+        drinkLemon = this.resources.getString(R.string.Drink_lemon)
+        drinkJamong = this.resources.getString(R.string.Drink_jamong)
+        drinkRed = this.resources.getString(R.string.Drink_red)
+        drinkWhite = this.resources.getString(R.string.Drink_white)
+        drink7star = this.resources.getString(R.string.Drink_7star)
 
         //plus minus button
         plusButton.setOnLongClickListener {
@@ -156,42 +158,46 @@ class SubPizzaItemActivity : AppCompatActivity() {
 
             when (itemValue) {
                 1 -> {
-                    itemName = pizzaSpicy
-                    itemPrice = number * 24800
-                    tableDatabase.child("8").setValue(DataClassMeat(itemName, number, itemPrice))
+                    itemName = drinkOrange
+                    itemPrice = number * 6900
+                    tableDatabase.child("21").setValue(DataClassMeat(itemName, number, itemPrice))
                 }
                 2 -> {
-                    itemName = pizzaJola
-                    itemPrice = number * 25800
-                    tableDatabase.child("9").setValue(DataClassMeat(itemName, number, itemPrice))
+                    itemName = drinkLemon
+                    itemPrice = number * 6900
+                    tableDatabase.child("22").setValue(DataClassMeat(itemName, number, itemPrice))
                 }
                 3 -> {
-                    itemName = pizzaSnowing
-                    itemPrice = number * 26800
-                    tableDatabase.child("10").setValue(DataClassMeat(itemName, number, itemPrice))
+                    itemName = drinkJamong
+                    itemPrice = number * 6900
+                    tableDatabase.child("23").setValue(DataClassMeat(itemName, number, itemPrice))
                 }
                 4 -> {
-                    itemName = pizzaBurata
-                    itemPrice = number * 27500
-                    tableDatabase.child("11").setValue(DataClassMeat(itemName, number, itemPrice))
+                    itemName = drinkRed
+                    itemPrice = number * 6900
+                    tableDatabase.child("24").setValue(DataClassMeat(itemName, number, itemPrice))
                 }
                 5 -> {
-                    itemName = pizzaGolden
-                    itemPrice = number * 27800
-                    tableDatabase.child("12").setValue(DataClassMeat(itemName, number, itemPrice))
+                    itemName = drinkWhite
+                    itemPrice = number * 6900
+                    tableDatabase.child("25").setValue(DataClassMeat(itemName, number, itemPrice))
                 }
-
+                6 -> {
+                    itemName = drink7star
+                    itemPrice = number * 4500
+                    tableDatabase.child("26").setValue(DataClassMeat(itemName, number, itemPrice))
+                }
                 else -> return@setOnClickListener
             }
 
-            intent = Intent(this, SubPizzaActivity::class.java)
+            intent = Intent(this, SubDrinkActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }
 
         backButtonWhite.setOnClickListener {
             soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-            intent = Intent(this, SubPizzaActivity::class.java)
+            intent = Intent(this, SubDrinkActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }
@@ -225,7 +231,8 @@ class SubPizzaItemActivity : AppCompatActivity() {
     }
 
     @SuppressLint("ObsoleteSdkInt")
-    private fun sound(){
+    private fun sound() {
+
         soundPool = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val audioAttributes = AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
@@ -235,13 +242,18 @@ class SubPizzaItemActivity : AppCompatActivity() {
                 .setMaxStreams(6)
                 .setAudioAttributes(audioAttributes)
                 .build()
-        } else { SoundPool(6, AudioManager.STREAM_MUSIC, 0) }
+        } else {
+            SoundPool(6, AudioManager.STREAM_MUSIC, 0)
+        }
         sound1 = soundPool!!.load(this, R.raw.push, 1)
         sound2 = soundPool!!.load(this, R.raw.sound2, 1)
         sound3 = soundPool!!.load(this, R.raw.sound3, 1)
         sound4 = soundPool!!.load(this, R.raw.sound4, 1)
+
     }
+
     //백키를 눌렀을 때
     override fun onBackPressed() {}
+
 
 }

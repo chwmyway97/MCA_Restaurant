@@ -1,7 +1,7 @@
 package com.chocho.MCA_Restaurant
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.icu.text.DecimalFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +10,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class SubActivityAdapter(val context: Context, val List: MutableList<SubActivityModel>) : RecyclerView.Adapter<SubActivityAdapter.ViewHolder>() {
+class SubActivityAdapter(val context: Context, val List: MutableList<DataClassSubActivity>) : RecyclerView.Adapter<SubActivityAdapter.ViewHolder>() {
+
+    private val dec = java.text.DecimalFormat("###,###")
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubActivityAdapter.ViewHolder{
 
         val v = LayoutInflater.from(parent.context).inflate(R.layout.activity_main_item,parent,false)
 
         return ViewHolder(v)
+
     }
     //리사이 클러뷰 아이템 클릭 이벤트
     interface ItemClick
@@ -39,12 +43,13 @@ class SubActivityAdapter(val context: Context, val List: MutableList<SubActivity
     }
 
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
-        fun bindItems(item : SubActivityModel){
+        @SuppressLint("SetTextI18n")
+        fun bindItems(item : DataClassSubActivity){
             val orangeImage = itemView.findViewById<ImageView>(R.id.orangeImg)
             val orangeText = itemView.findViewById<TextView>(R.id.orangeText)
             val orangeText2 = itemView.findViewById<TextView>(R.id.orangeText2)
 
-            val dec = DecimalFormat("###,###")
+
             val money =item.Money
             orangeText.text = item.Text
             orangeText2.text= "￦ " + dec.format(money)

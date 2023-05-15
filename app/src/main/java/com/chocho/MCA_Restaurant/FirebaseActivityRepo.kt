@@ -10,33 +10,40 @@ import com.google.firebase.ktx.Firebase
 
 
 class FirebaseActivityRepo {
-    fun getData(): LiveData<MutableList<MeatDataClass>> {
-        val mutableData = MutableLiveData<MutableList<MeatDataClass>>()
-        val database = Firebase.database
-        val myRef = database.getReference("table")
 
-        myRef.addValueEventListener(object : ValueEventListener {
-            val listData: MutableList<MeatDataClass> = mutableListOf<MeatDataClass>()
+    private val database = Firebase.database
+    private val tableDatabase = database.getReference("table")
+    private val mutableData = MutableLiveData<MutableList<DataClassMeat>>()
+    private val listData: MutableList<DataClassMeat> = mutableListOf()
+    fun getData(): LiveData<MutableList<DataClassMeat>> {
 
-            override fun onDataChange(snapshot: DataSnapshot) {
+        tableDatabase.addValueEventListener(object : ValueEventListener {
 
-                if (snapshot.exists()){
+            override fun onDataChange(tableSnapshot: DataSnapshot) {
+
+                if (tableSnapshot.exists()) {
+
                     listData.clear()
-                    for (meatSnapshot in snapshot.children){
-                        val getData = meatSnapshot.getValue(MeatDataClass::class.java)
+
+                    for (tableMeatValue in tableSnapshot.children) {
+
+                        val getData = tableMeatValue.getValue(DataClassMeat::class.java)
+
                         listData.add(getData!!)
 
                         mutableData.value = listData
+
                     }
+
                 }
 
-
             }
 
-            override fun onCancelled(error: DatabaseError) {
+            override fun onCancelled(error: DatabaseError) {}
 
-            }
         })
+
         return mutableData
+
     }
 }

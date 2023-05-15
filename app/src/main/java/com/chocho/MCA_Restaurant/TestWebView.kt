@@ -66,7 +66,7 @@ class TestWebView : AppCompatActivity() {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             live.clear()
                             for (messageData in snapshot.children) {
-                                val getData = messageData.getValue(MeatDataClass::class.java)
+                                val getData = messageData.getValue(DataClassMeat::class.java)
                                 live.add(getData!!)
                                 Log.d("궁금해", live.toString())
                                 kyky.setValue(live)

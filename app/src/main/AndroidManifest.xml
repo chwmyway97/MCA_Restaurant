@@ -19,13 +19,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-
         <activity
-            android:name=".TestWebView"
+            android:name="com.chocho.MCA_Restaurant.TestWebView"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.chocho.MCA_Restaurant.SubDringItemActivity"
+            android:name="com.chocho.MCA_Restaurant.SubDrinkItemActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity

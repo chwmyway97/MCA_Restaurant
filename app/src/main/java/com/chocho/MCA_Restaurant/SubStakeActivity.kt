@@ -1,38 +1,147 @@
 package com.chocho.MCA_Restaurant
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class SubStakeActivity : AppCompatActivity() {
 
-    private val items = mutableListOf<SubActivityModel>()
+    private val items = mutableListOf<DataClassSubActivity>()
     private var soundPool: SoundPool? = null
     private var sound1 = 0
     private var sound2 = 0
     private var sound3 = 0
     private var sound4 = 0
 
+    private lateinit var pastaLinearLayout: LinearLayout
+    private lateinit var pizzaLinearLayout: LinearLayout
+    private lateinit var appetizerLinearLayout: LinearLayout
+    private lateinit var drinkLinearLayout: LinearLayout
+
+    private lateinit var paymentImageView: ImageView
+
+    private lateinit var intentSubPastaActivity: Intent
+    private lateinit var intentSubPizzaActivity: Intent
+    private lateinit var intentSubDrinkActivity: Intent
+    private lateinit var intentSubAppetizerActivity: Intent
+    private lateinit var intentPaymentListActivity: Intent
+    private lateinit var intentSubStakeItemActivity: Intent
+
+    private lateinit var stakeGarlic: String
+    private lateinit var stakeHub: String
+    private lateinit var stakeHug: String
+    private lateinit var stakeTwist: String
+
+    private lateinit var recyclerView: RecyclerView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main5)
-        overridePendingTransition(R.anim.fade_in, R.anim.none) // 애니매이션
+        setContentView(R.layout.activity_stake)
 
-        val pastaButton = findViewById<LinearLayout>(R.id.linearLayout1)
-        val pizzaButton = findViewById<LinearLayout>(R.id.linearLayout3)
-        val appetizerButton = findViewById<LinearLayout>(R.id.linearLayout4)
-        val stakeButton = findViewById<LinearLayout>(R.id.linearLayout5)
-        val waterButton = findViewById<LinearLayout>(R.id.linearLayout6)
-        val bagButton = findViewById<ImageView>(R.id.baguni)
+        init()
+
+    }
+
+    private fun init() {
+
+        // 애니매이션
+        overridePendingTransition(R.anim.fade_in, R.anim.none)
+
+        //클릭시 소리 사운드
+        sound()
+
+        //LinearLayout 변수 선언
+        pastaLinearLayout = findViewById(R.id.pastaLinearLayout)
+        pizzaLinearLayout = findViewById(R.id.pizzaLinearLayout)
+        appetizerLinearLayout = findViewById(R.id.appetizerLinearLayout)
+        drinkLinearLayout = findViewById(R.id.drinkLinearLayout)
+
+        //ImageView 변수 선언
+        paymentImageView = findViewById(R.id.paymentImageView)
+
+        //Intent 변수 선언
+        intentSubPastaActivity = Intent(this, SubPastaActivity::class.java)
+        intentSubPizzaActivity = Intent(this, SubPizzaActivity::class.java)
+        intentSubDrinkActivity = Intent(this, SubStakeActivity::class.java)
+        intentSubAppetizerActivity = Intent(this, SubAppetizerActivity::class.java)
+        intentSubDrinkActivity = Intent(this, SubStakeActivity::class.java)
+        intentPaymentListActivity = Intent(this, PaymentListActivity::class.java)
+        intentSubStakeItemActivity = Intent(this, SubStakeItemActivity::class.java)
+
+        //리사이클러뷰 변수 선언
+        recyclerView = findViewById(R.id.main5)
+
+        //메세지 가져오기
+        stakeGarlic = this.resources.getString(R.string.stake_garlic)
+        stakeHub = this.resources.getString(R.string.stake_hub)
+        stakeHug = this.resources.getString(R.string.stake_hug)
+        stakeTwist = this.resources.getString(R.string.stake_twist)
+
+        //목록 추가시
+        val clickListener = View.OnClickListener {
+            val intent = when (it.id) {
+                R.id.pastaLinearLayout -> intentSubPastaActivity
+                R.id.pizzaLinearLayout -> intentSubPizzaActivity
+                R.id.appetizerLinearLayout -> intentSubAppetizerActivity
+                R.id.drinkLinearLayout -> intentSubDrinkActivity
+                R.id.paymentImageView -> intentPaymentListActivity
+                else -> return@OnClickListener
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
+            startActivity(intent)
+        }
+        pastaLinearLayout.setOnClickListener(clickListener)
+        pizzaLinearLayout.setOnClickListener(clickListener)
+        appetizerLinearLayout.setOnClickListener(clickListener)
+        drinkLinearLayout.setOnClickListener(clickListener)
+        paymentImageView.setOnClickListener(clickListener)
+
+        //리사이클러뷰
+        val subActivityAdapter = SubActivityAdapter(this, items)
+        recyclerView.adapter = subActivityAdapter
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
+
+        //아이템 추가
+        val itemList = listOf(
+            DataClassSubActivity(R.drawable.stake_garlic, Text = stakeGarlic, 49500),
+            DataClassSubActivity(R.drawable.stake_hub, Text = stakeHub, 49500),
+            DataClassSubActivity(R.drawable.stake_hug, Text = stakeHug, 49900),
+            DataClassSubActivity(R.drawable.stake_twist, Text = stakeTwist, 49500),
+        )
+        items.addAll(itemList)
+
+        //Item 클릭 함수
+        subActivityAdapter.itemClick = object : SubActivityAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                val itemValue = when (items[position].Text) {
+                    stakeGarlic -> 1
+                    stakeHub -> 2
+                    stakeHug -> 3
+                    stakeTwist -> 4
+                    else -> return
+                }
+                intentSubStakeItemActivity.putExtra("key", itemValue)
+                intentSubStakeItemActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intentSubStakeItemActivity)
+            }
+        }
+
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
+    private fun sound() {
 
         soundPool = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val audioAttributes = AudioAttributes.Builder()
@@ -51,115 +160,9 @@ class SubStakeActivity : AppCompatActivity() {
         sound3 = soundPool!!.load(this, R.raw.sound3, 1)
         sound4 = soundPool!!.load(this, R.raw.sound4, 1)
 
-        pastaButton.setOnClickListener {
-            val intent = Intent(this, SubPastaActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            soundPool?.play(sound1,0.5f,0.5f,0,0,1f)
-            startActivity(intent)
-        }
-
-        pastaButton.setOnClickListener {
-            val intent = Intent(this, SubPastaActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-            startActivity(intent)
-        }
-
-
-        pizzaButton.setOnClickListener {
-            val intent = Intent(this, SubPizzaActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-            startActivity(intent)
-        }
-
-
-        appetizerButton.setOnClickListener {
-            val intent = Intent(this, SubAppetizerActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-            startActivity(intent)
-        }
-
-
-
-        waterButton.setOnClickListener {
-            val intent = Intent(this, SubDrinkActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-            startActivity(intent)
-        }
-
-
-        bagButton.setOnClickListener {
-            val intent = Intent(this, PaymentListActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            soundPool?.play(sound1, 0.5f, 0.5f, 0, 0, 1f)
-            startActivity(intent)
-        }
-
-
-
-        items.add(
-            SubActivityModel(
-                R.drawable.stake_garic, Text = "갈릭 스테이크", 49500
-            )
-        )
-        items.add(
-            SubActivityModel(
-                R.drawable.stake_ripeye, Text = "허브 스테이크", 49500
-            )
-        )
-        items.add(
-            SubActivityModel(
-                R.drawable.stake_hug, Text = "갈릭 허그 스테이크", 49900
-            )
-        )
-        items.add(
-            SubActivityModel(
-                R.drawable.stake_twist, Text = "본 스테이크", 49500
-            )
-        )
-
-
-        val recyclerView = findViewById<RecyclerView>(R.id.main5)
-        val subActivityAdapter = SubActivityAdapter(this, items)
-        recyclerView.adapter = subActivityAdapter
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
-
-        //클릭함수
-        subActivityAdapter.itemClick = object : SubActivityAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                if (items[position].Text == "갈릭 스테이크") {
-                    intent = Intent(this@SubStakeActivity, SubStakeItemActivity::class.java)
-                    intent.putExtra("key1", 1)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                    startActivity(intent)
-                }
-                if (items[position].Text == "허브 스테이크") {
-                    intent = Intent(this@SubStakeActivity, SubStakeItemActivity::class.java)
-                    intent.putExtra("key1", 2)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                    startActivity(intent)
-                }
-                if (items[position].Text == "갈릭 허그 스테이크") {
-                    intent = Intent(this@SubStakeActivity, SubStakeItemActivity::class.java)
-                    intent.putExtra("key1", 3)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                    startActivity(intent)
-                }
-                if (items[position].Text == "본 스테이크") {
-                    intent = Intent(this@SubStakeActivity, SubStakeItemActivity::class.java)
-                    intent.putExtra("key1", 4)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                    startActivity(intent)
-                }
-
-
-            }
-        }
     }
-    //백키를 눌렀을때
+
+    //백키를 눌렀을 때
     override fun onBackPressed() {}
 
 }

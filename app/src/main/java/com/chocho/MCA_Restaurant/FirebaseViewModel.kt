@@ -5,13 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class FirebaseViewModel : ViewModel() {
+
     private val repo = FirebaseActivityRepo()
-    fun fetchData(): LiveData<MutableList<MeatDataClass>>{
-        val mutableData = MutableLiveData<MutableList<MeatDataClass>>()
-        repo.getData().observeForever{
+    private val mutableData = MutableLiveData<MutableList<DataClassMeat>>()
+
+    fun fetchData(): LiveData<MutableList<DataClassMeat>> {
+
+        repo.getData().observeForever {
+
             mutableData.value = it
+
         }
+
         return mutableData
+
     }
 
 }

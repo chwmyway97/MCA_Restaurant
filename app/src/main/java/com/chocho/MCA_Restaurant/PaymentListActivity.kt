@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,55 +26,82 @@ import java.util.concurrent.TimeUnit
 class PaymentListActivity : AppCompatActivity() {
 
     private val dec = java.text.DecimalFormat("###,###")
+    private val toastShort = Toast.LENGTH_SHORT
 
-    private var totalAmountSum = 0
-
-    private val client = OkHttpClient()
-    private var receivedIntent: Intent? = null
-    private val executor = Executors.newSingleThreadScheduledExecutor()
-
+    //database
     private val database = Firebase.database
     private val tableDatabase = database.getReference("table")
     private val masterDatabase = database.getReference("master")
     private val table: MutableList<Any> = mutableListOf()
 
+    //kakopay
+    private val admin = "KakaoAK 471ce1832263a9c17fbec652e3ec12b9"
+    private val approvalUrl = "http://192.168.0.6:8080/"
+    private val failUrl = "http://192.168.0.6:8080/"
+    private val cancelUrl = "http://192.168.0.6:8080/"
+    private val client = OkHttpClient()
+    private var receivedIntent: Intent? = null
+    private val executor = Executors.newSingleThreadScheduledExecutor()
 
     //리사이클러뷰 변수
-    private lateinit var adapter: PaymentlistAdapter
+    private lateinit var adapter: PaymentListAdapter
     private val viewModel by lazy { ViewModelProvider(this).get(FirebaseViewModel::class.java) }
+
+    //총 합
+    private var totalAmountSum = 0
+
+    private lateinit var backButton: ImageButton
+    private lateinit var paymentButton: ImageButton
+    private lateinit var removeButton: ImageButton
+
+    private lateinit var totalAmount: TextView
+
+    private lateinit var intentSubPastaActivity: Intent
+
+    private lateinit var deleteMessage: String
+    private lateinit var notPayListMessage: String
+    private lateinit var notDeleteListMessage: String
+    private lateinit var deleteToast: Toast
+    private lateinit var notPayListToast: Toast
+    private lateinit var notDeleteListToast: Toast
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_list)
 
+        init()
+
+    }
+
+    private fun init() {
         // 애니매이션
         overridePendingTransition(R.anim.fade_in, R.anim.none)
 
         //이미지버튼 변수
-        val backButton = findViewById<ImageButton>(R.id.backButton)
-        val paymentButton = findViewById<ImageButton>(R.id.payment)
-        val removeButton = findViewById<ImageButton>(R.id.removeButton)
+        backButton = findViewById(R.id.backButton)
+        paymentButton = findViewById(R.id.payment)
+        removeButton = findViewById(R.id.removeButton)
 
         //리사이클러뷰 변수
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView2)
 
         //텍스트 뷰 변수
-        val totalAmount = findViewById<TextView>(R.id.totalAmount)
+        totalAmount = findViewById<TextView>(R.id.totalAmount)
 
         //intent 변수
-        val intentSubPastaActivity = Intent(this, SubPastaActivity::class.java)
-        val intentMainActivity = Intent(this, MainActivity::class.java)
+        intentSubPastaActivity = Intent(this, SubPastaActivity::class.java)
+
 
         //메세지 가져오기
-        val deleteMessage = this.resources.getString(R.string.deleteMessage)
-        val notPayListMessage = this.resources.getString(R.string.notPayListMessage)
-        val notDeleteListMessage = this.resources.getString(R.string.notDeleteListMessage)
+        deleteMessage = this.resources.getString(R.string.deleteMessage)
+        notPayListMessage = this.resources.getString(R.string.notPayListMessage)
+        notDeleteListMessage = this.resources.getString(R.string.notDeleteListMessage)
 
         //toast 메세지
-        val deleteToast = Toast.makeText(this, deleteMessage, Toast.LENGTH_SHORT)
-        val notPayListToast = Toast.makeText(this, notPayListMessage, Toast.LENGTH_SHORT)
-        val notDeleteListToast = Toast.makeText(this, notDeleteListMessage, Toast.LENGTH_SHORT)
-
+        deleteToast = Toast.makeText(this, deleteMessage, toastShort)
+        notPayListToast = Toast.makeText(this, notPayListMessage, toastShort)
+        notDeleteListToast = Toast.makeText(this, notDeleteListMessage, toastShort)
 
         //뒤로가기 버튼
         backButton.setOnClickListener {
@@ -84,7 +110,7 @@ class PaymentListActivity : AppCompatActivity() {
         }
 
         //리사이클러뷰 파이어베이스 연결
-        adapter = PaymentlistAdapter(this)
+        adapter = PaymentListAdapter(this)
 
         //RecyclerView 같은 경우 매니져를 설정해 줘야한다.
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -97,6 +123,7 @@ class PaymentListActivity : AppCompatActivity() {
 
             @SuppressLint("SetTextI18n")
             override fun onDataChange(tableSnapshot: DataSnapshot) {
+                totalAmountSum = 0  //totalAmountSum 초기화 안해주면 -누르거나 삭제했을때 계속 값이 추가됨
 
                 if (tableSnapshot.exists()) { //존재할 때
                     //각 meatValue 값 (각 주문한 음식의 가격) 을 다 더함
@@ -122,6 +149,7 @@ class PaymentListActivity : AppCompatActivity() {
 
                         startActivity(intentSubPastaActivity)
                     }
+
 
                 } else { //구매목록이 없을때
 
@@ -155,12 +183,12 @@ class PaymentListActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observerData() {
-        viewModel.fetchData().observe(this, Observer {
+        viewModel.fetchData().observe(this) {
 
             adapter.setListData(it)
             adapter.notifyDataSetChanged()
 
-        })
+        }
 
     }
 
@@ -187,9 +215,9 @@ class PaymentListActivity : AppCompatActivity() {
         params["total_amount"] = "$pay"
         params["vat_amount"] = "200"
         params["tax_free_amount"] = "0"
-        params["approval_url"] = "http://192.168.0.33:8080/"
-        params["fail_url"] = "http://192.168.0.33:8080/"
-        params["cancel_url"] = "http://192.168.0.33:8080/"
+        params["approval_url"] = approvalUrl
+        params["fail_url"] = failUrl
+        params["cancel_url"] = cancelUrl
 
         // form 형태의 데이터 구성
         val formBody = FormBody.Builder()
@@ -205,7 +233,7 @@ class PaymentListActivity : AppCompatActivity() {
         }
 
         val request = Request.Builder()
-            .addHeader("Authorization", "KakaoAK 471ce1832263a9c17fbec652e3ec12b9")
+            .addHeader("Authorization", admin)
             .addHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
             .url(readyUrl + httpBuilder.toString())
             .post(formBody.build())
@@ -234,7 +262,7 @@ class PaymentListActivity : AppCompatActivity() {
     }
 
     // 결제 상태 조회
-    fun requestPaymentStatus(tid: String) {
+    private fun requestPaymentStatus(tid: String) {
         val orderUrl = "https://kapi.kakao.com/v1/payment/order"
         // 요청 바디에 담을 파라미터
         val params = HashMap<String, Any>()
@@ -255,7 +283,7 @@ class PaymentListActivity : AppCompatActivity() {
 
         // API 요청
         val request = Request.Builder()
-            .addHeader("Authorization", "KakaoAK 471ce1832263a9c17fbec652e3ec12b9")
+            .addHeader("Authorization", admin)
             .url(orderUrl + httpBuilder)
             .post(formBody.build())
             .build()
@@ -291,12 +319,14 @@ class PaymentListActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        // 새로운 Intent를 받으면 receivedIntent 변수에 저장
+        // 새로운 Intent 받으면 receivedIntent 변수에 저장
         receivedIntent = intent
     }
 
     // 결제 승인 요청
     private fun kakaoPayApprove(pg_token: String, tid: String) {
+
+        val intentMainActivity = Intent(this@PaymentListActivity, MainActivity::class.java)
 
         val approveUrl = "https://kapi.kakao.com/v1/payment/approve"
         val params = HashMap<String, Any>()
@@ -319,7 +349,7 @@ class PaymentListActivity : AppCompatActivity() {
         }
 
         val request = Request.Builder()
-            .addHeader("Authorization", "KakaoAK 471ce1832263a9c17fbec652e3ec12b9")
+            .addHeader("Authorization", admin)
             .url(approveUrl + httpBuilder.toString())
             .post(formBody.build())
             .build()
@@ -347,7 +377,7 @@ class PaymentListActivity : AppCompatActivity() {
 
                             for (tableMeatValue in tableSnapshot.children) {
 
-                                val tableMeatValueDataDataClass = tableMeatValue.getValue(MeatDataClass::class.java)
+                                val tableMeatValueDataDataClass = tableMeatValue.getValue(DataClassMeat::class.java)
 
                                 table.add(tableMeatValueDataDataClass!!)
 
@@ -355,21 +385,16 @@ class PaymentListActivity : AppCompatActivity() {
 
                                 tableDatabase.removeValue()
 
-                                val intentMainActivity = Intent(this@PaymentListActivity,MainActivity::class.java)
                                 startActivity(intentMainActivity)
 
-                                Log.d("테이블 데이터", table.toString())
                             }
 
-
                         }
-
 
                         override fun onCancelled(error: DatabaseError) {
                         }
 
                     })
-
 
 
                 }
@@ -388,7 +413,23 @@ class PaymentListActivity : AppCompatActivity() {
 //https://blog.yena.io/studynote/2017/12/06/Android-Kotlin-RecyclerView1.html
 //리사이클러뷰 파이어베이스 리얼타임베이스
 //https://gloria94.tistory.com/19
+/** 키해시
+try {
+val information =
+packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+val signatures = information.signingInfo.apkContentsSigners
+val md = MessageDigest.getInstance("SHA")
+for (signature in signatures) {
+val md: MessageDigest = MessageDigest.getInstance("SHA")
+md.update(signature.toByteArray())
+var hashcode = String(Base64.encode(md.digest(), 0))
+Log.d("hashcode", "" + hashcode)
+}
+} catch (e: Exception) {
+Log.d("hashcode", "에러::" + e.toString())
 
+}
+ **/
 
 
 

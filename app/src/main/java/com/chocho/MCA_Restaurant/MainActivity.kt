@@ -7,18 +7,21 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var mainButton :ImageButton
+
+    private lateinit var intentSubPastaActivity :Intent
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
-        val mainButton = findViewById<ImageButton>(R.id.mainButton)
+        mainButton = findViewById(R.id.mainButton)
 
-        val intentSubPastaActivity = Intent(this, SubPastaActivity::class.java)
+        intentSubPastaActivity = Intent(this, SubPastaActivity::class.java)
 
-        mainButton.setOnClickListener {
-
-            startActivity(intentSubPastaActivity)
-        }
+        mainButton.setOnClickListener { startActivity(intentSubPastaActivity) }
     }
     //백키를 눌렀을 때
     override fun onBackPressed() {}

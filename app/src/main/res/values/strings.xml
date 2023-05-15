@@ -1,11 +1,40 @@
 <resources>
     <string name="app_name">MCA_Restaurant</string>
 
+    <string name="Pasta_garlic">갈릭 페뇨 파스타</string>
+    <string name="Pasta_triple">트리플 갈릭 파스타</string>
+    <string name="Pasta_carbonara">갈릭 까르보나라</string>
+    <string name="Pasta_arrabbiata">아 라 비 아 따</string>
+    <string name="Pasta_spicy">명란 파스타</string>
+    <string name="Pasta_ocean">해산물 수프 파스타</string>
+    <string name="Pasta_crab">랍스타 크림 파스타</string>
+
+    <string name="pizza_spicy">단호박 크림 피자</string>
+    <string name="pizza_jola">고르곤졸라 피자</string>
+    <string name="pizza_snowing">갈릭 스노윙 피자</string>
+    <string name="pizza_burata">마르&amp;부라타피자</string>
+    <string name="pizza_golden">바질 부라타 피자</string>
+
+    <string name="Appetizer_Caesar">시저 샐러드</string>
+    <string name="Appetizer_Garlic">갈릭 타워샐러드</string>
+    <string name="Appetizer_Kale">케일 샐러드</string>
+    <string name="Appetizer_Shrimp">쉬림프 카슈엘라</string>
+
+    <string name="stake_garlic">갈릭 스테이크</string>
+    <string name="stake_hub">허브 스테이크</string>
+    <string name="stake_hug">갈릭 허그 스테이크</string>
+    <string name="stake_twist">본 스테이크</string>
+
+    <string name="Drink_orange">오렌지 에이드</string>
+    <string name="Drink_lemon">레몬 에이드</string>
+    <string name="Drink_jamong">자몽 에이드</string>
+    <string name="Drink_red">레드 와인 쿨러</string>
+    <string name="Drink_white">화이트 와인 쿨러</string>
+    <string name="Drink_7star">사이다</string>
+
     <string name="deleteMessage">전체 삭제 되었습니다.</string>
     <string name="notPayListMessage">구매 목록이 없습니다.</string>
     <string name="notDeleteListMessage">삭제 항목이 없습니다.</string>
-
-
 
 
     <string name="garlic_carbonara">Garlic Carbonara</string>
