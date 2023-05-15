@@ -39,6 +39,7 @@ class PaymentListActivity : AppCompatActivity() {
     private val approvalUrl = "http://192.168.0.6:8080/"
     private val failUrl = "http://192.168.0.6:8080/"
     private val cancelUrl = "http://192.168.0.6:8080/"
+
     private val client = OkHttpClient()
     private var receivedIntent: Intent? = null
     private val executor = Executors.newSingleThreadScheduledExecutor()
@@ -58,9 +59,12 @@ class PaymentListActivity : AppCompatActivity() {
 
     private lateinit var intentSubPastaActivity: Intent
 
+    private lateinit var paymentListRecyclerView: RecyclerView
+
     private lateinit var deleteMessage: String
     private lateinit var notPayListMessage: String
     private lateinit var notDeleteListMessage: String
+
     private lateinit var deleteToast: Toast
     private lateinit var notPayListToast: Toast
     private lateinit var notDeleteListToast: Toast
@@ -84,10 +88,10 @@ class PaymentListActivity : AppCompatActivity() {
         removeButton = findViewById(R.id.removeButton)
 
         //리사이클러뷰 변수
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView2)
+        paymentListRecyclerView = findViewById(R.id.paymentListRecyclerView)
 
         //텍스트 뷰 변수
-        totalAmount = findViewById<TextView>(R.id.totalAmount)
+        totalAmount = findViewById(R.id.totalAmount)
 
         //intent 변수
         intentSubPastaActivity = Intent(this, SubPastaActivity::class.java)
@@ -113,9 +117,10 @@ class PaymentListActivity : AppCompatActivity() {
         adapter = PaymentListAdapter(this)
 
         //RecyclerView 같은 경우 매니져를 설정해 줘야한다.
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = adapter
+        paymentListRecyclerView.layoutManager = LinearLayoutManager(this)
+        paymentListRecyclerView.setHasFixedSize(true)
+        paymentListRecyclerView.adapter = adapter
+
         observerData()
 
         //테이블 데이터베이스에서 가격 정보 가져오기

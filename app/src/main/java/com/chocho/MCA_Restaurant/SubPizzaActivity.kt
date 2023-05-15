@@ -114,11 +114,11 @@ class SubPizzaActivity : AppCompatActivity() {
 
         //아이템 추가
         val itemList = listOf(
-            DataClassSubActivity(R.drawable.water_orange, Text = pizzaSpicy, 24800),
-            DataClassSubActivity(R.drawable.water_lemon, Text = pizzaJola, 25800),
-            DataClassSubActivity(R.drawable.water_jamong, Text = pizzaSnowing, 26800),
-            DataClassSubActivity(R.drawable.water_red, Text = pizzaBurata, 27500),
-            DataClassSubActivity(R.drawable.water_white, Text = pizzaGolden, 27800),
+            DataClassSubActivity(R.drawable.pizza_spicy, Text = pizzaSpicy, 24800),
+            DataClassSubActivity(R.drawable.pizza_jola, Text = pizzaJola, 25800),
+            DataClassSubActivity(R.drawable.pizza_snowing, Text = pizzaSnowing, 26800),
+            DataClassSubActivity(R.drawable.pizza_burata, Text = pizzaBurata, 27500),
+            DataClassSubActivity(R.drawable.pizza_golden, Text = pizzaGolden, 27800)
         )
         items.addAll(itemList)
 

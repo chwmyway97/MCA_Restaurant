@@ -6,13 +6,12 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.MotionEvent
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -100,7 +99,7 @@ class SubStakeItemActivity : AppCompatActivity() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun init(){
+    private fun init() {
 
         //전 화면에서 값이 넘어 오는것 받기
         val itemValue = intent.getIntExtra("key", 0)
@@ -219,9 +218,6 @@ class SubStakeItemActivity : AppCompatActivity() {
 
     @SuppressLint("ObsoleteSdkInt")
     private fun sound() {
-
-
-
 
 
         soundPool = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

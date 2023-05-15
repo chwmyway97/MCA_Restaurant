@@ -75,7 +75,7 @@ class SubStakeActivity : AppCompatActivity() {
         intentSubPizzaActivity = Intent(this, SubPizzaActivity::class.java)
         intentSubDrinkActivity = Intent(this, SubStakeActivity::class.java)
         intentSubAppetizerActivity = Intent(this, SubAppetizerActivity::class.java)
-        intentSubDrinkActivity = Intent(this, SubStakeActivity::class.java)
+        intentSubDrinkActivity = Intent(this, SubDrinkActivity::class.java)
         intentPaymentListActivity = Intent(this, PaymentListActivity::class.java)
         intentSubStakeItemActivity = Intent(this, SubStakeItemActivity::class.java)
 

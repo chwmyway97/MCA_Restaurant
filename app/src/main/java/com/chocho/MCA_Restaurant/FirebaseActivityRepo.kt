@@ -7,12 +7,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-
-
 class FirebaseActivityRepo {
 
     private val database = Firebase.database
     private val tableDatabase = database.getReference("table")
+
     private val mutableData = MutableLiveData<MutableList<DataClassMeat>>()
     private val listData: MutableList<DataClassMeat> = mutableListOf()
     fun getData(): LiveData<MutableList<DataClassMeat>> {

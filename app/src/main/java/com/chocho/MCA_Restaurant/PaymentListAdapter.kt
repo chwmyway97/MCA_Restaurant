@@ -17,8 +17,10 @@ import com.google.firebase.ktx.Firebase
 @Suppress("NAME_SHADOWING")
 class PaymentListAdapter(private val context: Context) : RecyclerView.Adapter<PaymentListAdapter.ViewHolder>() {
 
+    //decimalFormat
     private val dec = java.text.DecimalFormat("###,###")
 
+    //database
     private val database = Firebase.database
     private val tableDatabase = database.getReference("table")
 
@@ -56,7 +58,6 @@ class PaymentListAdapter(private val context: Context) : RecyclerView.Adapter<Pa
 
     private var dataClassMeatList = mutableListOf<DataClassMeat>()
 
-
     fun setListData(data: MutableList<DataClassMeat>) {
         dataClassMeatList = data
     }
@@ -66,15 +67,10 @@ class PaymentListAdapter(private val context: Context) : RecyclerView.Adapter<Pa
 
         val view = LayoutInflater.from(context).inflate(R.layout.activity_bag_item, parent, false)
 
-
-
         return ViewHolder(view)
     }
 
-
     //onBindViewHolder : 위의 onCreateViewHolder 에서 만든 view 와 실제 입력되는 각각의 데이터를 연결한다.
-
-
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PaymentListAdapter.ViewHolder, position: Int) {
 
@@ -95,14 +91,14 @@ class PaymentListAdapter(private val context: Context) : RecyclerView.Adapter<Pa
 
                 holder.plusButton.setOnClickListener {
 
-                    count = (count + 1).coerceAtMost(10)
+                    count = (count + 1).coerceAtMost(10) //최대값 10
 
                     tableDatabase.child(num).setValue(DataClassMeat(text, count, count * value))
 
                 }
                 holder.minusButton.setOnClickListener {
 
-                    count = (count - 1).coerceAtLeast(1)
+                    count = (count - 1).coerceAtLeast(1) //최소값 1
 
                     tableDatabase.child(num).setValue(DataClassMeat(text, count, count * value))
 
@@ -143,6 +139,7 @@ class PaymentListAdapter(private val context: Context) : RecyclerView.Adapter<Pa
             }
         }
 
+        //Plus  Minus 버튼 눌렀을 때
         selectPlusMinus(pastaGarlic, "1", 24800)
         selectPlusMinus(pastaTriple, "2", 24800)
         selectPlusMinus(pastaCarbonara, "3", 25500)
@@ -170,6 +167,7 @@ class PaymentListAdapter(private val context: Context) : RecyclerView.Adapter<Pa
         selectPlusMinus(drinkWhite, "25", 6900)
         selectPlusMinus(drink7star, "26", 4500)
 
+        //삭제 버튼 눌렀을 때
         selectDelete(pastaGarlic, "1")
         selectDelete(pastaTriple, "2")
         selectDelete(pastaCarbonara, "3")
